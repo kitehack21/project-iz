@@ -2,5 +2,12 @@
     border-radius: 50%;
     height: 32px;
     width: 32px;
-    background-color: #00adb5;
+    filter: invert(55%) sepia(15%) saturate(5022%) hue-rotate(144deg) brightness(89%) contrast(101%);
+    margin: 3px;
+}
+.player-button:active {
+    transform: translateY(1px);
+}
+.player-button:hover {
+    cursor: pointer;
 }
