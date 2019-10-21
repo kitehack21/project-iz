@@ -1,9 +1,11 @@
 import React from 'react'
 
-export const Page = () => {
+const Page: React.FC = ({children}) => {
     return(
-        <div>
-            
+        <div className="container">
+            {children}
         </div>
     )
 }
+
+export default Page

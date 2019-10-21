@@ -5,10 +5,15 @@
   "dependencies": {
     "@types/jest": "^24.0.19",
     "@types/node": "^12.7.12",
+    "lodash-es": "^4.17.15",
+    "lodash-move": "^1.1.1",
     "moment": "^2.24.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
+    "react-spring": "^8.0.27",
+    "react-use-gesture": "^6.0.12",
+    "reactstrap": "^8.1.0",
     "typescript": "^3.6.4"
   },
   "scripts": {
