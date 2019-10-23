@@ -54,8 +54,10 @@ const MusicPlayer: React.FC = () => {
     setMuted(!isMuted)
   }
 
-  const onAudioSelect = (url: string) => {
-    setSong(url)
+  const onAudioSelect = async(url: string) => {
+    await setSong(url)
+    await setStatus("playing")
+    await player.current.play()
   }
 
   const handleSlider = (e: React.ChangeEvent<HTMLInputElement>) => {

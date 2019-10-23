@@ -6,16 +6,13 @@ import { useSprings, animated, interpolate } from 'react-spring'
 import './springs.css'
 
 // Returns fitting styles for dragged/idle items
-// @ts-ignore
-const fn = (order, down, originalIndex, curIndex, y) => index =>
+const fn = (order: Array<number>, down?: boolean, originalIndex?: number, curIndex?: number, y?: number) => (index: number) =>
   down && index === originalIndex
-  // @ts-ignore
-    ? { y: curIndex * 100 + y, scale: 1.1, zIndex: '1', shadow: 15, immediate: n => n === 'y' || n === 'zIndex' }
+    ? { y: curIndex! * 100 + y!, scale: 1.1, zIndex: '1', shadow: 15, immediate: (n: any) => n === 'y' || n === 'zIndex' }
     : { y: order.indexOf(index) * 100, scale: 1, zIndex: '0', shadow: 1, immediate: false }
 // @ts-ignore
 const Draggables = ({ items }) => {
-    // @ts-ignore
-  const order = useRef(items.map((_, index) => index)) // Store indicies as a local ref, this represents the item order
+  const order = useRef(items.map((_: any, index: number):number => index)) // Store indicies as a local ref, this represents the item order
   // @ts-ignore
   const [springs, setSprings] = useSprings(items.length, fn(order.current)) // Create springs, each corresponds to an item, controlling its transform, scale, etc.
   // @ts-ignore
@@ -29,8 +26,7 @@ const Draggables = ({ items }) => {
   })
   return (
     <div className="content" style={{ height: items.length * 100 }}>
-        // @ts-ignore
-      {springs.map(({ zIndex, shadow, y, scale }, i) => (
+      {springs.map(({ zIndex, shadow, y, scale }: {zIndex: number, shadow: any, y:number, scale: number}, i: number) => (
         <animated.div
           {...bind(i)}
           key={i}
