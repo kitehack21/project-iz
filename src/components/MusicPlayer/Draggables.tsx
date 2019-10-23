@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import clamp from 'lodash-es/clamp'
 import swap from 'lodash-move'
-import { useGesture } from 'react-use-gesture'
+import { useDrag } from 'react-use-gesture'
 import { useSprings, animated, interpolate } from 'react-spring'
 import './springs.css'
 
@@ -19,7 +19,7 @@ const Draggables = ({ items }) => {
   // @ts-ignore
   const [springs, setSprings] = useSprings(items.length, fn(order.current)) // Create springs, each corresponds to an item, controlling its transform, scale, etc.
   // @ts-ignore
-  const bind = useGesture(({ args: [originalIndex], down, delta: [, y] }) => {
+  const bind = useDrag(({ args: [originalIndex], down, movement: [, y] }) => {
     const curIndex = order.current.indexOf(originalIndex)
     const curRow = clamp(Math.round((curIndex * 100 + y) / 100), 0, items.length - 1)
     const newOrder = swap(order.current, curIndex, curRow)
