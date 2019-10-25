@@ -13,11 +13,15 @@ const testsong2 = require('./mainactor.mp3')
 const MusicPlayer: React.FC = () => {
   const player = useRef<HTMLAudioElement>(new Audio())
   const slider = useRef<HTMLInputElement>(document.createElement("input"))
+  const volumeSlider = useRef<HTMLInputElement>(document.createElement("input"))
   const [currentTime, setCurrentTime] = useState<number>(-1)
+  const [currentVolume, setVolume] = useState<number>(0.6)
   const [duration, setDuration] = useState<number>(-1)
   const [song, setSong] = useState<string>("")
   const [isMuted, setMuted] = useState<boolean>(false)
   const [status, setStatus] = useState<string>("paused")
+
+  player.current.volume = currentVolume
 
   player.current.oncanplaythrough = ({target}: Event) => {
     const audioTarget = target as HTMLAudioElement
@@ -61,8 +65,12 @@ const MusicPlayer: React.FC = () => {
   }
 
   const handleSlider = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target)
     player.current.currentTime = parseInt(e.target.value)
+  }
+
+  const handleVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value)
+    setVolume(parseFloat(e.target.value))
   }
 
   return (
@@ -90,6 +98,9 @@ const MusicPlayer: React.FC = () => {
               <input type="range" ref={slider} min={0} max={duration} value={currentTime} onChange={handleSlider} className="seeker"/>
               </div>
               <div>{duration >=0 ? moment(duration*1000).format("mm:ss") : "--:--"}</div>
+            </div>
+            <div>
+            <input type="range" ref={volumeSlider} min={0} max={1.00} value={currentVolume} onChange={handleVolume} className="seeker" step={0.01}/>
             </div>
             <div className="d-flex flex-row">
                 {status === "paused" ? 
