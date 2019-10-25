@@ -15,7 +15,7 @@ const MusicPlayer: React.FC = () => {
   const slider = useRef<HTMLInputElement>(document.createElement("input"))
   const volumeSlider = useRef<HTMLInputElement>(document.createElement("input"))
   const [currentTime, setCurrentTime] = useState<number>(-1)
-  const [currentVolume, setVolume] = useState<number>(0.6)
+  const [currentVolume, setVolume] = useState<number>(0.60)
   const [duration, setDuration] = useState<number>(-1)
   const [song, setSong] = useState<string>("")
   const [isMuted, setMuted] = useState<boolean>(false)
@@ -74,13 +74,13 @@ const MusicPlayer: React.FC = () => {
   }
 
   return (
-    <div className="player-container container-fluid p-3 d-flex flex-column">
+    <div className="player-container container-fluid p-5 d-flex flex-column">
       This is an audio player
       <div className="d-flex flex-row">
         <div className="mr-3" style={{width:"150px", height:"150px", border:"1px"}}>
           <img src={testcover} alt="album cover" className="w-100" style={{borderRadius:"3px"}}/>
         </div>
-        <div>
+        <div className="w-100">
           <div className="player-info">
           <div>{!song ? "No song selected" : "Song selected"}</div>
             <div>SONG TITLE</div>
@@ -92,15 +92,16 @@ const MusicPlayer: React.FC = () => {
             </div>
           </div>
           <div className="player-controls d-flex flex-column">
-            <div className="d-flex flex-row justify-content-between">
+            <div className="d-flex flex-row justify-content-between w-100">
               <div>{currentTime >= 0 ? moment(currentTime*1000).format("mm:ss") : "--:--"}</div>
-              <div className="h-100">
-              <input type="range" ref={slider} min={0} max={duration} value={currentTime} onChange={handleSlider} className="seeker"/>
+              <div className="h-100 w-100">
+                <input type="range" ref={slider} min={0} max={duration} value={currentTime} onChange={handleSlider} className="seeker"/>
               </div>
               <div>{duration >=0 ? moment(duration*1000).format("mm:ss") : "--:--"}</div>
             </div>
-            <div>
-            <input type="range" ref={volumeSlider} min={0} max={1.00} value={currentVolume} onChange={handleVolume} className="seeker" step={0.01}/>
+            <div className="d-flex flex-row align-items-center">
+              <input type="range" ref={volumeSlider} min={0} max={1.00} value={currentVolume} onChange={handleVolume} className="seeker" step={0.01}/>
+              <div className="ml-2">{Math.floor(currentVolume * 100)}</div>
             </div>
             <div className="d-flex flex-row">
                 {status === "paused" ? 
@@ -110,27 +111,27 @@ const MusicPlayer: React.FC = () => {
           </div>
         </div>
       </div>
-      <button onClick={() => onAudioSelect(testsong)}>audio 1</button>
-      <button onClick={() => onAudioSelect(testsong2)}>audio 2</button>
-      <button onClick={onMute}>mute</button>
+      <button className="w-25" onClick={() => onAudioSelect(testsong)}>audio 1</button>
+      <button className="w-25" onClick={() => onAudioSelect(testsong2)}>audio 2</button>
+      <button className="w-25" onClick={onMute}>mute</button>
       <audio ref={player} src={song} id="music-player" muted={isMuted} preload={"auto"}/>
-      <div>Queue</div>
-      <div style={{width: "100%", color: "white"}} className="d-flex flex-column pre-scrollable">
-        <div className="my-1"style={{backgroundColor:"#393e46", width:"100%"}}>TESTING CARD</div>
-        <div className="my-1"style={{backgroundColor:"#393e46", width:"100%"}}>TESTING CARD</div>
-        <div className="my-1"style={{backgroundColor:"#393e46", width:"100%"}}>TESTING CARD</div>
-        <div className="my-1"style={{backgroundColor:"#393e46", width:"100%"}}>TESTING CARD</div>
-        <div className="my-1"style={{backgroundColor:"#393e46", width:"100%"}}>TESTING CARD</div>
-        <div className="my-1"style={{backgroundColor:"#393e46", width:"100%"}}>TESTING CARD</div>
-        <div className="my-1"style={{backgroundColor:"#393e46", width:"100%"}}>TESTING CARD</div>
-        <div className="my-1"style={{backgroundColor:"#393e46", width:"100%"}}>TESTING CARD</div>
-        <div className="my-1"style={{backgroundColor:"#393e46", width:"100%"}}>TESTING CARD</div>
-        <div className="my-1"style={{backgroundColor:"#393e46", width:"100%"}}>TESTING CARD</div>
-        <div className="my-1"style={{backgroundColor:"#393e46", width:"100%"}}>TESTING CARD</div>
-        <div className="my-1"style={{backgroundColor:"#393e46", width:"100%"}}>TESTING CARD</div>
-        <div className="my-1"style={{backgroundColor:"#393e46", width:"100%"}}>TESTING CARD</div>
-        <div className="my-1"style={{backgroundColor:"#393e46", width:"100%"}}>TESTING CARD</div>
-        <div className="my-1"style={{backgroundColor:"#393e46", width:"100%"}}>TESTING CARD</div>
+      <div>Playlist</div>
+      <div style={{width: "100%"}} className="d-flex flex-column pre-scrollable">
+        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
+        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
+        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
+        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
+        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
+        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
+        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
+        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
+        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
+        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
+        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
+        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
+        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
+        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
+        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
       </div>
       <div className="container-fluid"> 
         <Draggables items={["a","b","c"]}/>

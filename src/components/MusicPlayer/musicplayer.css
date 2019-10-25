@@ -110,3 +110,8 @@
 .seeker:focus::-ms-fill-upper {
     background: #367ebd;
 }
+
+.playlist-card {
+    border-radius: 3px;
+    background-color: #999999
+}

@@ -33,6 +33,7 @@ position: absolute;
     background: lightblue;
     text-transform: uppercase;
     letter-spacing: 2px;
+    user-select: none;
 }
 
 .content > div:nth-child(1) {
