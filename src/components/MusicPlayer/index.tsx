@@ -4,13 +4,22 @@ import './musicplayer.css'
 import './springs.css'
 import playbutton from './play-button.svg'
 import pausebutton from './pause-button.svg'
-import testcover from './cover.jpg'
 import Draggables from './Draggables'
-import * as mmb from 'music-metadata-browser';
+// import * as mmb from 'music-metadata-browser';
 import axios from 'axios'
-import { API_URL }from '../../api-url.js'
-const testsong = require('./test-audio/Lemon.mp3')
-const testsong2 = require('./test-audio/mainactor.mp3')
+import { API_URL } from '../../api-url.js'
+import placeholder from './placeholder.js'
+
+
+const arrayBufferToBase64 = (buffer: Array<any>) => {
+  let binary = '';
+  let bytes = new Uint8Array(buffer);
+  let len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+  }
+  return window.btoa(binary);
+}
 
 
 const MusicPlayer: React.FC = () => {
@@ -26,16 +35,18 @@ const MusicPlayer: React.FC = () => {
   const [artist, setArtist] = useState<string>("-----")
   const [album, setAlbum] = useState<string>("----")
   const [songs, setSongs] = useState<Array<any>>([])
+  const [albumart, setAlbumart] = useState<string>(placeholder)
 
   useEffect(() => {
     axios.get(API_URL + '/songs')
     .then((res: any) => {
+      console.log(res.data)
       setSongs(res.data)
     })
     .catch((err: any) => {
       console.log(err)
     })
-  }, [isMuted])
+  }, [])
   
   player.current.volume = currentVolume
 
@@ -51,20 +62,20 @@ const MusicPlayer: React.FC = () => {
     setCurrentTime(audioObject.currentTime)
   }
 
-  const getMetaData = (file: any): void => {
-    mmb.parseBlob(file, {native: true}).then(metadata => {
-      console.log(`Completed parsing of file:`, metadata);
-      setTitle(metadata.common.title as string)
-      setArtist(metadata.common.artist as string)
-      setAlbum(metadata.common.album as string)
-      setSong(URL.createObjectURL(file))
-    })
-  }
+  // const getMetaData = (file: any): void => {
+  //   mmb.parseBlob(file, {native: true}).then(metadata => {
+  //     console.log(`Completed parsing of file:`, metadata);
+  //     setTitle(metadata.common.title as string)
+  //     setArtist(metadata.common.artist as string)
+  //     setAlbum(metadata.common.album as string)
+  //     setSong(URL.createObjectURL(file))
+  //   })
+  // }
 
-  const onFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files![0] as any
-    getMetaData(file)
-  }
+  // const onFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files![0] as any
+  //   getMetaData(file)
+  // }
 
   const onPlay = () => {
     if(song){
@@ -83,10 +94,14 @@ const MusicPlayer: React.FC = () => {
     setMuted(!isMuted)
   }
 
-  const onAudioSelect = async(url: string) => {
+  const onAudioSelect = async(item: any) => {
     try{
-      console.log(url)
-      await setSong(url)
+      const base64string = arrayBufferToBase64(item.common.picture[0].data.data) as string
+      setTitle(item.common.title as string)
+      setArtist(item.common.artist as string)
+      setAlbum(item.common.album as string)
+      setAlbumart(`data:${item.common.picture[0].data.format};base64,${base64string}`)
+      setSong(API_URL + "/" + item.url)
     }
     catch(err){
       console.error(err)
@@ -104,8 +119,8 @@ const MusicPlayer: React.FC = () => {
 
   const RenderSongs: React.FC = () => {
     const arrJSX = songs.map((item: any) => {
-      const fileURL = API_URL + "/" + item
-      return <div className="my-1 p-3 playlist-card" key={JSON.stringify(item)}>TESTING CARD <img src={playbutton} onClick={() => onAudioSelect(fileURL)} className="player-button" alt="play button"/> </div>
+      // const fileURL = API_URL + "/" + item.url
+      return <div className="my-1 p-3 playlist-card" key={JSON.stringify(item)}>{item.common.title}<img src={playbutton} onClick={() => onAudioSelect(item)} className="player-button" alt="play button"/> </div>
     })
     return <React.Fragment>
       {arrJSX}
@@ -117,7 +132,7 @@ const MusicPlayer: React.FC = () => {
       This is an audio player
       <div className="d-flex flex-row">
         <div className="mr-3" style={{width:"150px", height:"150px", border:"1px"}}>
-          <img src={testcover} alt="album cover" className="w-100" style={{borderRadius:"3px"}}/>
+          <img src={albumart} alt="album cover" className="w-100" style={{borderRadius:"3px"}}/>
         </div>
         <div className="w-100">
           <div className="player-info">
@@ -150,31 +165,14 @@ const MusicPlayer: React.FC = () => {
           </div>
         </div>
       </div>
-      <button className="w-25" onClick={() => onAudioSelect(testsong)}>audio 1</button>
-      <button className="w-25" onClick={() => onAudioSelect(testsong2)}>audio 2</button>
       <button className="w-25" onClick={onMute}>mute</button>
       <audio ref={player} src={song} id="music-player" muted={isMuted} preload={"auto"}/>
-      <input type="file" onChange={onFileSelect}/>
+      {/* <input type="file" onChange={onFileSelect}/> */}
       {
         //@ts-ignore
       <input type="file" directory=""  webkitdirectory=""/>}
       <div>Playlist</div>
       <div style={{width: "100%"}} className="d-flex flex-column pre-scrollable">
-        <div className="my-1 p-3 playlist-card">TESTING CARD     <img src={playbutton} onClick={() => onAudioSelect(testsong)} className="player-button" alt="play button"/> </div>
-        {/* <div className="my-1 p-3 playlist-card">TESTING CARD</div>
-        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
-        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
-        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
-        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
-        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
-        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
-        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
-        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
-        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
-        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
-        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
-        <div className="my-1 p-3 playlist-card">TESTING CARD</div>
-        <div className="my-1 p-3 playlist-card">TESTING CARD</div> */}
         <RenderSongs/>
       </div>
       <div className="container-fluid"> 
