@@ -5,7 +5,7 @@ import './springs.css'
 import playbutton from './play-button.svg'
 import pausebutton from './pause-button.svg'
 import Draggables from './Draggables'
-// import * as mmb from 'music-metadata-browser';
+import * as mmb from 'music-metadata-browser';
 import axios from 'axios'
 import { API_URL } from '../../api-url.js'
 import placeholder from './placeholder.js'
@@ -16,7 +16,7 @@ const arrayBufferToBase64 = (buffer: Array<any>) => {
   let bytes = new Uint8Array(buffer);
   let len = bytes.byteLength;
   for (let i = 0; i < len; i++) {
-      binary += String.fromCharCode(bytes[i]);
+    binary += String.fromCharCode(bytes[i]);
   }
   return window.btoa(binary);
 }
@@ -62,20 +62,23 @@ const MusicPlayer: React.FC = () => {
     setCurrentTime(audioObject.currentTime)
   }
 
-  // const getMetaData = (file: any): void => {
-  //   mmb.parseBlob(file, {native: true}).then(metadata => {
-  //     console.log(`Completed parsing of file:`, metadata);
-  //     setTitle(metadata.common.title as string)
-  //     setArtist(metadata.common.artist as string)
-  //     setAlbum(metadata.common.album as string)
-  //     setSong(URL.createObjectURL(file))
-  //   })
-  // }
+  const getMetaData = (file: any): void => {
+    mmb.parseBlob(file, {native: true}).then(metadata => {
+      console.log(`Completed parsing of file:`, metadata);
+      setTitle(metadata.common.title as string)
+      setArtist(metadata.common.artist as string)
+      setAlbum(metadata.common.album as string)
+      const picture = metadata.common.picture as any
+      const base64string = arrayBufferToBase64(picture[0].data) as string
+      setAlbumart(`data:${picture[0].format as string};base64,${base64string}`)
+      setSong(URL.createObjectURL(file))
+    })
+  }
 
-  // const onFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = e.target.files![0] as any
-  //   getMetaData(file)
-  // }
+  const onFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files![0] as any
+    getMetaData(file)
+  }
 
   const onPlay = () => {
     if(song){
@@ -167,11 +170,20 @@ const MusicPlayer: React.FC = () => {
       </div>
       <button className="w-25" onClick={onMute}>mute</button>
       <audio ref={player} src={song} id="music-player" muted={isMuted} preload={"auto"}/>
-      {/* <input type="file" onChange={onFileSelect}/> */}
+      <input type="file" onChange={onFileSelect}/>
       {
         //@ts-ignore
       <input type="file" directory=""  webkitdirectory=""/>}
       <div>Playlist</div>
+      <div className="my-1 p-3 playlist-card d-flex flex-row align-items-center">
+        <div className="mr-3" style={{width:"60px", height:"60px", border:"1px"}}>
+          <img src={albumart} alt="album cover" className="w-100" style={{borderRadius:"3px"}}/>
+        </div>
+        <div className="flex-grow-1">
+          PLACEHOLDER TITLE
+        </div>
+        <img src={playbutton} className="player-button" alt="play button"/> 
+      </div>
       <div style={{width: "100%"}} className="d-flex flex-column pre-scrollable">
         <RenderSongs/>
       </div>
