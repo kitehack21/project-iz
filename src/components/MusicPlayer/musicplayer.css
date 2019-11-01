@@ -115,3 +115,7 @@
     border-radius: 3px;
     background-color: #999999
 }
+
+.playlist-card:hover {
+    cursor: pointer;
+}

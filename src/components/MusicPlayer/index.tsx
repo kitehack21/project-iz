@@ -21,6 +21,26 @@ const arrayBufferToBase64 = (buffer: Array<any>) => {
   return window.btoa(binary);
 }
 
+interface TrackCardProps {
+  albumart: string,
+  title: string,
+  onClick?(event: React.MouseEvent<HTMLDivElement>):void
+}
+
+const TrackCard: React.FC<TrackCardProps> = ({albumart, title, onClick}) => {
+  return(
+    <div className="my-1 p-3 playlist-card d-flex flex-row align-items-center" onClick={onClick}>
+      <div className="mr-3" style={{width:"60px", height:"60px", border:"1px"}}>
+        <img src={albumart} alt="album cover" className="w-100" style={{borderRadius:"3px"}}/>
+      </div>
+      <div className="flex-grow-1">
+        {title}
+      </div>
+      {/* <img src={playbutton} className="player-button" alt="play button"/>  */}
+    </div>
+  )
+}
+
 
 const MusicPlayer: React.FC = () => {
   const player = useRef<HTMLAudioElement>(new Audio())
@@ -123,7 +143,9 @@ const MusicPlayer: React.FC = () => {
   const RenderSongs: React.FC = () => {
     const arrJSX = songs.map((item: any) => {
       // const fileURL = API_URL + "/" + item.url
-      return <div className="my-1 p-3 playlist-card" key={JSON.stringify(item)}>{item.common.title}<img src={playbutton} onClick={() => onAudioSelect(item)} className="player-button" alt="play button"/> </div>
+      const base64string = arrayBufferToBase64(item.common.picture[0].data.data) as string
+      // return <div className="my-1 p-3 playlist-card" key={JSON.stringify(item)}>{item.common.title}<img src={playbutton} onClick={() => onAudioSelect(item)} className="player-button" alt="play button"/> </div>
+      return <TrackCard key={JSON.stringify(item)} albumart={`data:${item.common.picture[0].data.format};base64,${base64string}`} onClick={()=>onAudioSelect(item)} title={item.common.title}/>
     })
     return <React.Fragment>
       {arrJSX}
@@ -175,15 +197,7 @@ const MusicPlayer: React.FC = () => {
         //@ts-ignore
       <input type="file" directory=""  webkitdirectory=""/>}
       <div>Playlist</div>
-      <div className="my-1 p-3 playlist-card d-flex flex-row align-items-center">
-        <div className="mr-3" style={{width:"60px", height:"60px", border:"1px"}}>
-          <img src={albumart} alt="album cover" className="w-100" style={{borderRadius:"3px"}}/>
-        </div>
-        <div className="flex-grow-1">
-          PLACEHOLDER TITLE
-        </div>
-        <img src={playbutton} className="player-button" alt="play button"/> 
-      </div>
+      <TrackCard albumart={albumart} onClick={()=>{}} title={"test"}/>
       <div style={{width: "100%"}} className="d-flex flex-column pre-scrollable">
         <RenderSongs/>
       </div>
