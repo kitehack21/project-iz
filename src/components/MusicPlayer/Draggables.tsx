@@ -10,6 +10,7 @@ const fn = (order: Array<number>, down?: boolean, originalIndex?: number, curInd
   down && index === originalIndex
     ? { y: curIndex! * 100 + y!, scale: 1.1, zIndex: '1', shadow: 15, immediate: (n: any) => n === 'y' || n === 'zIndex' }
     : { y: order.indexOf(index) * 100, scale: 1, zIndex: '0', shadow: 1, immediate: false }
+    
 // @ts-ignore
 const Draggables = ({ items }) => {
   const order = useRef(items.map((_: any, index: number):number => index)) // Store indicies as a local ref, this represents the item order
@@ -20,7 +21,6 @@ const Draggables = ({ items }) => {
     const curIndex = order.current.indexOf(originalIndex)
     const curRow = clamp(Math.round((curIndex * 100 + y) / 100), 0, items.length - 1)
     const newOrder = swap(order.current, curIndex, curRow)
-    // @ts-ignore
     setSprings(fn(newOrder, down, originalIndex, curIndex, y)) // Feed springs new style data, they'll animate the view without causing a single render
     if (!down) order.current = newOrder
   })
