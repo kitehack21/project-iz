@@ -63,7 +63,7 @@ const AudioController: React.FC<AudioControllerProps> = ({song}) => {
     }
   
     return(
-      <div className="player-controls d-flex flex-column">
+      <div className="player-controls d-flex flex-column w-100">
         <div className="d-flex flex-row justify-content-between w-100 align-items-center">
           <div style={{minWidth: "30px"}}>{currentTime >= 0 ? moment(currentTime*1000).format("mm:ss") : "--:--"}</div>
           <div className="h-100 w-100 mx-2">

@@ -119,15 +119,13 @@ const MusicPlayer: React.FC = () => {
   }
 
   return (
-    <div className="player-container container-fluid p-5 d-flex flex-column">
-      This is an audio player
-      <div className="d-flex flex-row">
+    <div className="player-container d-flex flex-column">
+      <div className="d-flex flex-row p-5" style={{background: "#9AA5B1", borderTopLeftRadius: "3px", borderTopRightRadius: "3px"}}>
         <div className="mr-3" style={{width:"150px", height:"150px", border:"1px"}}>
           <img src={albumart} alt="album cover" className="w-100" style={{borderRadius:"3px"}}/>
         </div>
-        <div className="w-100">
-          <div className="player-info">
-          <div>{!song ? "No song selected" : "Song selected"}</div>
+        <div className="w-100 d-flex flex-row">
+          <div className="player-info" style={{minWidth:"120px"}}>
             <div>{title}</div>
             <div>
               {artist}
@@ -136,19 +134,19 @@ const MusicPlayer: React.FC = () => {
               {album}
             </div>
           </div>
+          <AudioController song={song}/>
         </div>
       </div>
-      <AudioController song={song}/>
       <input type="file" onChange={onFileSelect}/>
       {
         //@ts-ignore
       <input type="file" directory=""  webkitdirectory=""/>}
-      <div>Playlist</div>
-      <TrackCard albumart={albumart} onClick={()=>{}} title={"test"}/>
-      <TrackList>
-        <RenderSongs/>
-      </TrackList>
-      <div className="container-fluid"> 
+      <div className="p-5">
+        <div>Playlist</div>
+        <TrackCard albumart={albumart} onClick={()=>{}} title={"test"}/>
+        <TrackList>
+          <RenderSongs/>
+        </TrackList>
         <Draggables items={["a","b","c"]}/>
       </div>
     </div>

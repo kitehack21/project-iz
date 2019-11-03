@@ -1,7 +1,8 @@
 .player-container {
     border-radius: 8px;
     color: #525f7f;
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
+    background: #F5F7FA;
 }
 .player-button {
     border-radius: 50%;
@@ -32,7 +33,7 @@
     cursor: pointer;
     transition: 0.2s;
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    background: #3071a9;
+    background: #3E4C59;
     border-radius: 1.3px;
     border: 0.2px solid #010101;
 }
@@ -45,7 +46,7 @@
     cursor: pointer;
     transition: 0.2s;
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    background: #3071a9;
+    background: #3E4C59;
     border-radius: 1.3px;
     border: 0.2px solid #010101;
 }
@@ -65,7 +66,7 @@
     height: 16px;
     width: 16px;
     border-radius: 50%;
-    background: #ffffff;
+    background: #1F2933;
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -4px;
@@ -79,7 +80,7 @@
     height: 16px;
     width: 16px;
     border-radius: 50%;
-    background: #ffffff;
+    background: #1F2933;
     cursor: pointer;
 }
 .seeker::-ms-thumb {
@@ -88,7 +89,7 @@
     height: 16px;
     width: 16px;
     border-radius: 50%;
-    background: #ffffff;
+    background: #1F2933;
     cursor: pointer;
 }
 
@@ -99,13 +100,13 @@
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
 .seeker::-ms-fill-upper {
-    background: #3071a9;
+    background: #3E4C59;
     border: 0.2px solid #010101;
     border-radius: 2.6px;
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
 .seeker:focus::-ms-fill-lower {
-    background: #3071a9;
+    background: #3E4C59;
 }
 .seeker:focus::-ms-fill-upper {
     background: #367ebd;
@@ -113,7 +114,7 @@
 
 .playlist-card {
     border-radius: 3px;
-    background-color: #999999
+    background-color: #E4E7EB
 }
 
 .playlist-card:hover {
