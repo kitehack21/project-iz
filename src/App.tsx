@@ -5,6 +5,12 @@ import MusicPlayer from './components/MusicPlayer'
 import './bootstrap.css'
 import './App.css'
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faPlay, faPause, faStepForward, faStepBackward, faVolumeUp, faVolumeDown, faVolumeMute, faVolumeOff } from '@fortawesome/free-solid-svg-icons'
+ 
+library.add(faPlay, faPause, faStepForward, faStepBackward, faVolumeUp, faVolumeDown, faVolumeMute, faVolumeOff)
+
+
 const App: React.FC = () => {
   return (
     <div>

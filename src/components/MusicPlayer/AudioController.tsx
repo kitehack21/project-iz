@@ -1,8 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react'
-import playbutton from './play-button.svg'
-import pausebutton from './pause-button.svg'
-import speakerimage from './speaker.svg'
-import muteimage from './mute-speaker.svg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import moment from 'moment'
 
 interface AudioControllerProps {
@@ -73,14 +70,14 @@ const AudioController: React.FC<AudioControllerProps> = ({song}) => {
         </div>
         <div className="d-flex flex-row">
             {isPaused ? 
-          <img src={playbutton} onClick={onPlay} className="player-button" alt="play button"/> :        
-          <img src={pausebutton} onClick={onPause} className="player-button" alt="pause button"/>}
+          <FontAwesomeIcon icon="play" onClick={onPlay} className="player-button"/>:        
+          <FontAwesomeIcon icon="pause" onClick={onPause} className="player-button"/>}
         </div>
         <div className="d-flex flex row align-items-center">
           {
             isMuted 
-            ? <img src={muteimage} onClick={onMute} className="player-button" alt="mute icon"/> 
-            : <img src={speakerimage} onClick={onMute} className="player-button" alt="speaker icon"/>}
+            ? <FontAwesomeIcon icon="volume-mute" onClick={onMute} className="player-button"/> 
+            : <FontAwesomeIcon icon="volume-up" onClick={onMute} className="player-button"/>}
             <div className="d-flex flex-row align-items-center">
               <input type="range" ref={volumeSlider} min={0} max={1.00} value={isMuted ? 0 : currentVolume} onChange={handleVolume} className="seeker" step={0.01}/>
             <div className="ml-2">{isMuted ? 0 : Math.floor(currentVolume * 100)}</div>

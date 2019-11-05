@@ -5,9 +5,6 @@
     background: #F5F7FA;
 }
 .player-button {
-    border-radius: 50%;
-    height: 32px;
-    width: 32px;
     filter: invert(55%) sepia(15%) saturate(5022%) hue-rotate(144deg) brightness(89%) contrast(101%);
     margin: 3px;
 }
