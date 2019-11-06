@@ -32,10 +32,16 @@ module.exports = {
           "allowTypedFunctionExpressions": true
         }
       ],
-      "@typescript-eslint/explicit-member-accessibility": "off",    
+      "@typescript-eslint/explicit-member-accessibility": "off",   
+      "@typescript-eslint/no-explicit-any": "off", 
+      "@typescript-eslint/no-non-null-assertion": "off", 
       "import/no-extraneous-dependencies": 0,
       "react/jsx-filename-extension": ["error", { extensions: [".jsx", ".tsx"] }],
-      "react/prop-types": [0]
+      "react/jsx-props-no-spreading": "off",
+      "react/prop-types": [0],
+      "prettier/prettier": ["error", { "singleQuote": true }],
+      "jsx-a11y/media-has-caption": "off",
+      "no-console": "off"
     },
     "settings": {
       "react": {
