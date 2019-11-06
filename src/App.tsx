@@ -3,8 +3,8 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faPlay,
   faPause,
-  faStepForward,
-  faStepBackward,
+  faFastBackward,
+  faFastForward,
   faVolumeUp,
   faVolumeDown,
   faVolumeMute,
@@ -19,8 +19,8 @@ import './App.css';
 library.add(
   faPlay,
   faPause,
-  faStepForward,
-  faStepBackward,
+  faFastBackward,
+  faFastForward,
   faVolumeUp,
   faVolumeDown,
   faVolumeMute,

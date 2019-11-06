@@ -60,7 +60,7 @@ const Draggables = ({ items }): JSX => {
         ) => (
           <animated.div
             {...bind(i)}
-            key={i}
+            key="card"
             style={{
               zIndex,
               boxShadow: shadow.interpolate(
@@ -68,6 +68,7 @@ const Draggables = ({ items }): JSX => {
               ),
               transform: interpolate(
                 [y, scale],
+                // eslint-disable-next-line no-shadow
                 (y, s) => `translate3d(0,${y}px,0) scale(${s})`
               )
             }}

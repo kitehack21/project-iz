@@ -164,7 +164,7 @@ const MusicPlayer: React.FC = () => {
           />
         </div>
         <div className="w-100 d-flex flex-row">
-          <div className="player-info" style={{ minWidth: '120px' }}>
+          <div className="player-info">
             <div>{title}</div>
             <div>{artist}</div>
             <div>{album}</div>

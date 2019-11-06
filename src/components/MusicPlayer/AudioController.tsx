@@ -1,6 +1,41 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+
+interface SpeakerIconProps {
+  currentVolume: number;
+  onClick?(): void;
+  isMuted?: boolean;
+}
+
+const SpeakerIcon: React.FC<SpeakerIconProps> = ({
+  currentVolume,
+  onClick,
+  isMuted
+}) => {
+  let icon: IconProp = 'volume-down';
+  if (currentVolume === 0) {
+    icon = 'volume-off';
+  }
+  if (currentVolume > 0.5) {
+    icon = 'volume-up';
+  }
+  if (isMuted) {
+    icon = 'volume-mute';
+  }
+
+  return (
+    <div className="mr-2">
+      <FontAwesomeIcon
+        icon={icon}
+        onClick={onClick}
+        className="player-button fa-fw"
+        size="lg"
+      />
+    </div>
+  );
+};
 
 interface AudioControllerProps {
   song: string;
@@ -83,35 +118,39 @@ const AudioController: React.FC<AudioControllerProps> = ({ song }) => {
           {duration >= 0 ? moment(duration * 1000).format('mm:ss') : '--:--'}
         </div>
       </div>
-      <div className="d-flex flex-row">
+      <div className="d-flex flex-row align-items-center justify-content-center">
+        <FontAwesomeIcon
+          icon="fast-backward"
+          className="player-button"
+          size="2x"
+        />
         {isPaused ? (
           <FontAwesomeIcon
             icon="play"
             onClick={onPlay}
-            className="player-button"
+            className="player-button mx-2"
+            size="2x"
           />
         ) : (
           <FontAwesomeIcon
             icon="pause"
             onClick={onPause}
-            className="player-button"
+            className="player-button mx-2"
+            size="2x"
           />
         )}
+        <FontAwesomeIcon
+          icon="fast-forward"
+          className="player-button"
+          size="2x"
+        />
       </div>
-      <div className="d-flex flex row align-items-center">
-        {isMuted ? (
-          <FontAwesomeIcon
-            icon="volume-mute"
-            onClick={onMute}
-            className="player-button"
-          />
-        ) : (
-          <FontAwesomeIcon
-            icon="volume-up"
-            onClick={onMute}
-            className="player-button"
-          />
-        )}
+      <div className="d-flex flex-row align-items-center">
+        <SpeakerIcon
+          onClick={onMute}
+          currentVolume={currentVolume}
+          isMuted={isMuted}
+        />
         <div className="d-flex flex-row align-items-center">
           <input
             type="range"
