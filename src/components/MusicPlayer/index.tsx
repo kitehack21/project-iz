@@ -74,6 +74,7 @@ const MusicPlayer: React.FC = () => {
   const [album, setAlbum] = useState<string>('----');
   const [songs, setSongs] = useState<Array<any>>([]);
   const [albumart, setAlbumart] = useState<string>(placeholder);
+  const [playelist, setPlaylist] = useState<Array<any>>([]);
 
   useEffect(() => {
     axios
@@ -124,11 +125,10 @@ const MusicPlayer: React.FC = () => {
 
   const RenderSongs: React.FC = () => {
     const arrJSX = songs.map((item: any, index: number) => {
-      // const fileURL = API_URL + "/" + item.url
       const base64string = arrayBufferToBase64(
         item.common.picture[0].data.data
       ) as string;
-      // return <div className="my-1 p-3 playlist-card" key={JSON.stringify(item)}>{item.common.title}<img src={playbutton} onClick={() => onAudioSelect(item)} className="player-button" alt="play button"/> </div>
+
       return (
         <TrackCard
           key={JSON.stringify(item)}
@@ -139,6 +139,7 @@ const MusicPlayer: React.FC = () => {
         />
       );
     });
+
     return <>{arrJSX}</>;
   };
 

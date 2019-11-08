@@ -52,6 +52,7 @@ const AudioController: React.FC<AudioControllerProps> = ({ song }) => {
   const [duration, setDuration] = useState<number>(-1);
   const [isMuted, setMuted] = useState<boolean>(false);
   const [isPaused, setPaused] = useState<boolean>(true);
+  const [nowPlayingIndex, setNowPlayingIndex] = useState<number>(0);
 
   player.current.volume = currentVolume;
 
@@ -84,6 +85,14 @@ const AudioController: React.FC<AudioControllerProps> = ({ song }) => {
 
   const onMute = (): void => {
     setMuted(!isMuted);
+  };
+
+  const onNextSong = (): void => {
+    setNowPlayingIndex(nowPlayingIndex + 1);
+  };
+
+  const onPreviousSong = (): void => {
+    setNowPlayingIndex(nowPlayingIndex + 1);
   };
 
   const handleSlider = (e: React.ChangeEvent<HTMLInputElement>): void => {
