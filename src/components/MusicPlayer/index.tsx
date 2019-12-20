@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import './musicplayer.css';
-import './springs.css';
 import axios from 'axios';
 import * as mmb from 'music-metadata-browser';
 import AudioController from './AudioController';
 import Draggables from './Draggables';
 import { API_URL } from '../../api-url';
 import placeholder from './placeholder';
+import './musicplayer.css';
+import './springs.css';
 
 const arrayBufferToBase64 = (buffer: Array<any>): string => {
   let binary = '';
@@ -74,7 +74,7 @@ const MusicPlayer: React.FC = () => {
   const [album, setAlbum] = useState<string>('----');
   const [songs, setSongs] = useState<Array<any>>([]);
   const [albumart, setAlbumart] = useState<string>(placeholder);
-  const [playelist, setPlaylist] = useState<Array<any>>([]);
+  const [playlist, setPlaylist] = useState<Array<any>>([]);
 
   useEffect(() => {
     axios
@@ -89,7 +89,7 @@ const MusicPlayer: React.FC = () => {
   }, []);
 
   const getMetaData = (file: any): void => {
-    mmb.parseBlob(file, { native: true }).then(metadata => {
+    mmb.parseBlob(file).then(metadata => {
       console.log(`Completed parsing of file:`, metadata);
       setTitle(metadata.common.title as string);
       setArtist(metadata.common.artist as string);

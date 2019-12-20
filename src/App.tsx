@@ -13,6 +13,7 @@ import {
 import Page from './components/commons/Page';
 import Header from './components/header';
 import MusicPlayer from './components/MusicPlayer';
+import StickyBottom from './components/MusicPlayer/StickyBottom';
 import './bootstrap.css';
 import './App.css';
 
@@ -35,6 +36,7 @@ const App: React.FC = () => {
         <Header />
         <MusicPlayer />
       </Page>
+      <StickyBottom song="" />
     </div>
   );
 };
