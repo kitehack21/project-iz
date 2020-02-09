@@ -1,11 +1,11 @@
 module.exports = {
-    "env": {
+    env: {
       "browser": true,
       "es6": true,
       "jest": true,
       "node": true
     },
-    "extends": [
+    extends : [
       "airbnb",
       "airbnb/hooks",
       "plugin:@typescript-eslint/recommended",
@@ -18,15 +18,15 @@ module.exports = {
       "prettier/@typescript-eslint",
       "prettier/react"
     ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "ecmaVersion": 2018,
-      "jsx": true,
-      "sourceType": "module",
-      "useJSXTextNode": true
+    parser: "@typescript-eslint/parser",
+    parserOptions: {
+      ecmaVersion: 2018,
+      jsx: true,
+      sourceType: "module",
+      useJSXTextNode: true
     },
-    "plugins": ["@typescript-eslint", "import", "jest", "react", "react-hooks", "prettier"],
-    "rules": {
+    plugins: ["@typescript-eslint", "import", "jest", "react", "react-hooks", "prettier"],
+    rules: {
       "@typescript-eslint/explicit-function-return-type": [
         "error",
         {
@@ -46,9 +46,9 @@ module.exports = {
       "jsx-a11y/media-has-caption": "off",
       "no-console": "off"
     },
-    "settings": {
-      "react": {
-        "version": "detect"
+    settings: {
+      react: {
+        version: "detect"
       }
     }
   }
