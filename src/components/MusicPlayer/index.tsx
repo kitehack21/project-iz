@@ -29,7 +29,7 @@ const TrackCard: React.FC<TrackCardProps> = ({
   albumart,
   title,
   onClick,
-  index
+  index,
 }) => {
   return (
     <div
@@ -109,13 +109,13 @@ const MusicPlayer: React.FC = () => {
   const onAudioSelect = async (item: any): Promise<void> => {
     try {
       const base64string = arrayBufferToBase64(
-        item.common.picture[0].data.data
+        item.common.picture[0].data.data,
       ) as string;
       setTitle(item.common.title as string);
       setArtist(item.common.artist as string);
       setAlbum(item.common.album as string);
       setAlbumart(
-        `data:${item.common.picture[0].data.format};base64,${base64string}`
+        `data:${item.common.picture[0].data.format};base64,${base64string}`,
       );
       setSong(`${API_URL}/${item.url}`);
     } catch (err) {
@@ -126,7 +126,7 @@ const MusicPlayer: React.FC = () => {
   const RenderSongs: React.FC = () => {
     const arrJSX = songs.map((item: any, index: number) => {
       const base64string = arrayBufferToBase64(
-        item.common.picture[0].data.data
+        item.common.picture[0].data.data,
       ) as string;
 
       return (
@@ -150,7 +150,7 @@ const MusicPlayer: React.FC = () => {
         style={{
           background: '#9AA5B1',
           borderTopLeftRadius: '3px',
-          borderTopRightRadius: '3px'
+          borderTopRightRadius: '3px',
         }}
       >
         <div

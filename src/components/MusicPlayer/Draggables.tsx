@@ -11,7 +11,7 @@ const fn = (
   down?: boolean,
   originalIndex?: number,
   curIndex?: number,
-  y?: number
+  y?: number,
 ) => (index: number) =>
   down && index === originalIndex
     ? {
@@ -19,14 +19,14 @@ const fn = (
         scale: 1.1,
         zIndex: '1',
         shadow: 15,
-        immediate: (n: string) => n === 'y' || n === 'zIndex'
+        immediate: (n: string) => n === 'y' || n === 'zIndex',
       }
     : {
         y: order.indexOf(index) * 100,
         scale: 1,
         zIndex: '0',
         shadow: 1,
-        immediate: false
+        immediate: false,
       };
 
 // @ts-ignore
@@ -40,7 +40,7 @@ const Draggables = ({ items }): JSX => {
     const curRow = clamp(
       Math.round((curIndex * 100 + y) / 100),
       0,
-      items.length - 1
+      items.length - 1,
     );
     const newOrder = swap(order.current, curIndex, curRow);
     setSprings(fn(newOrder, down, originalIndex, curIndex, y)); // Feed springs new style data, they'll animate the view without causing a single render
@@ -54,9 +54,9 @@ const Draggables = ({ items }): JSX => {
             zIndex,
             shadow,
             y,
-            scale
+            scale,
           }: { zIndex: number; shadow: any; y: number; scale: number },
-          i: number
+          i: number,
         ) => (
           <animated.div
             {...bind(i)}
@@ -64,18 +64,18 @@ const Draggables = ({ items }): JSX => {
             style={{
               zIndex,
               boxShadow: shadow.interpolate(
-                (s: any) => `rgba(0, 0, 0, 0.15) 0px ${s}px ${2 * s}px 0px`
+                (s: any) => `rgba(0, 0, 0, 0.15) 0px ${s}px ${2 * s}px 0px`,
               ),
               transform: interpolate(
                 [y, scale],
                 // eslint-disable-next-line no-shadow
-                (y, s) => `translate3d(0,${y}px,0) scale(${s})`
-              )
+                (y, s) => `translate3d(0,${y}px,0) scale(${s})`,
+              ),
             }}
           >
             {items[i]}
           </animated.div>
-        )
+        ),
       )}
     </div>
   );

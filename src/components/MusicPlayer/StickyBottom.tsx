@@ -12,7 +12,7 @@ interface SpeakerIconProps {
 const SpeakerIcon: React.FC<SpeakerIconProps> = ({
   currentVolume,
   onClick,
-  isMuted
+  isMuted,
 }) => {
   let icon: IconProp = 'volume-down';
   if (currentVolume === 0) {
@@ -46,7 +46,7 @@ const AudioController: React.FC<AudioControllerProps> = ({ song }) => {
   const [currentTime, setCurrentTime] = useState<number>(-1);
   const slider = useRef<HTMLInputElement>(document.createElement('input'));
   const volumeSlider = useRef<HTMLInputElement>(
-    document.createElement('input')
+    document.createElement('input'),
   );
   const [currentVolume, setVolume] = useState<number>(0.6);
   const [duration, setDuration] = useState<number>(-1);

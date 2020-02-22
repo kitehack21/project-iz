@@ -8,8 +8,10 @@ import {
   faVolumeUp,
   faVolumeDown,
   faVolumeMute,
-  faVolumeOff
+  faVolumeOff,
 } from '@fortawesome/free-solid-svg-icons';
+import { Provider } from 'react-redux';
+import store from 'redux/store';
 import Page from './components/commons/Page';
 import Header from './components/header';
 import MusicPlayer from './components/MusicPlayer';
@@ -25,19 +27,19 @@ library.add(
   faVolumeUp,
   faVolumeDown,
   faVolumeMute,
-  faVolumeOff
+  faVolumeOff,
 );
 
 const App: React.FC = () => {
   return (
-    <div>
+    <Provider store={store}>
       <div className="stripes" style={{ zIndex: -1 }} />
       <Page>
         <Header />
         <MusicPlayer />
       </Page>
       <StickyBottom song="" />
-    </div>
+    </Provider>
   );
 };
 

@@ -1,4 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { useTypedSelector } from 'redux/modules/reducer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -12,7 +14,7 @@ interface SpeakerIconProps {
 const SpeakerIcon: React.FC<SpeakerIconProps> = ({
   currentVolume,
   onClick,
-  isMuted
+  isMuted,
 }) => {
   let icon: IconProp = 'volume-down';
   if (currentVolume === 0) {
@@ -42,11 +44,14 @@ interface AudioControllerProps {
 }
 
 const AudioController: React.FC<AudioControllerProps> = ({ song }) => {
+  const dispatch = useDispatch();
+  const playerT = useTypedSelector(state => state.playerT);
+
   const player = useRef<HTMLAudioElement>(new Audio());
   const [currentTime, setCurrentTime] = useState<number>(-1);
   const slider = useRef<HTMLInputElement>(document.createElement('input'));
   const volumeSlider = useRef<HTMLInputElement>(
-    document.createElement('input')
+    document.createElement('input'),
   );
   const [currentVolume, setVolume] = useState<number>(0.6);
   const [duration, setDuration] = useState<number>(-1);
@@ -158,7 +163,7 @@ const AudioController: React.FC<AudioControllerProps> = ({ song }) => {
         <SpeakerIcon
           onClick={onMute}
           currentVolume={currentVolume}
-          isMuted={isMuted}
+          isMuted={playerT.isMuted}
         />
         <div className="d-flex flex-row align-items-center">
           <input
