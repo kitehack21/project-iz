@@ -1,11 +1,11 @@
 module.exports = {
-    env: {
+    "env": {
       "browser": true,
       "es6": true,
       "jest": true,
       "node": true
     },
-    extends : [
+    "extends": [
       "airbnb",
       "airbnb/hooks",
       "plugin:@typescript-eslint/recommended",
@@ -14,19 +14,20 @@ module.exports = {
       "plugin:react/recommended",
       "plugin:prettier/recommended",
       "plugin:import/recommended",
+      "plugin:import/typescript",
       "prettier",
       "prettier/@typescript-eslint",
       "prettier/react"
     ],
-    parser: "@typescript-eslint/parser",
-    parserOptions: {
-      ecmaVersion: 2018,
-      jsx: true,
-      sourceType: "module",
-      useJSXTextNode: true
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "jsx": true,
+      "sourceType": "module",
+      "useJSXTextNode": true
     },
-    plugins: ["@typescript-eslint", "import", "jest", "react", "react-hooks", "prettier"],
-    rules: {
+    "plugins": ["@typescript-eslint", "import", "jest", "react", "react-hooks", "prettier"],
+    "rules": {
       "@typescript-eslint/explicit-function-return-type": [
         "error",
         {
@@ -42,14 +43,31 @@ module.exports = {
       "react/jsx-filename-extension": ["error", { extensions: [".jsx", ".tsx"] }],
       "react/jsx-props-no-spreading": "off",
       "react/prop-types": [0],
-      "prettier/prettier": ["error", { "singleQuote": true }],
       "jsx-a11y/media-has-caption": "off",
-      "no-console": "off"
+      "no-console": "off",
+      'import/extensions': [
+        'error',
+        'ignorePackages',
+        {
+          js: 'never',
+          jsx: 'never',
+          ts: 'never',
+          tsx: 'never',
+          mjs: 'never',
+        },
+      ]
     },
-    settings: {
-      react: {
-        version: "detect"
-      }
+    "settings": {
+      "react": {
+        "version": "detect"
+      },
+      "import/extensions": [".js",".jsx",".ts",".tsx"],
+      "import/resolver": {
+        "node": {
+          "paths": ["src"],
+          "extensions": [".js",".jsx",".ts",".tsx"]
+        }
+      },
     }
   }
   
