@@ -24,8 +24,10 @@ const { actions, reducer } = createSlice({
   name: 'player',
   initialState,
   reducers: {
-    play: state => {},
-    toggleMute: state => {
+    play: (state) => {
+      return state;
+    },
+    toggleMute: (state) => {
       state.isMuted = !state.isMuted;
     },
   },

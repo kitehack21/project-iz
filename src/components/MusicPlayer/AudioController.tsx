@@ -45,7 +45,7 @@ interface AudioControllerProps {
 
 const AudioController: React.FC<AudioControllerProps> = ({ song }) => {
   const dispatch = useDispatch();
-  const playerT = useTypedSelector(state => state.playerT);
+  const playerT = useTypedSelector((state) => state.playerT);
 
   const player = useRef<HTMLAudioElement>(new Audio());
   const [currentTime, setCurrentTime] = useState<number>(-1);
