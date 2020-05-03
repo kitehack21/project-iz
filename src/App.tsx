@@ -20,7 +20,7 @@ const App: React.FC = () => {
         <Header />
         <MusicPlayer />
       </Page>
-      <StickyBottom song="" />
+      <StickyBottom />
     </Provider>
   );
 };

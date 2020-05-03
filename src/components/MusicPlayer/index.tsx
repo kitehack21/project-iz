@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import * as mmb from 'music-metadata-browser';
+// import * as mmb from 'music-metadata-browser';
+import { useDispatch } from 'react-redux';
+import { addSong, play } from 'redux/modules/player';
+import { API_URL } from 'api-url';
 import AudioController from './AudioController';
 import Draggables from './Draggables';
-import { API_URL } from '../../api-url';
 import placeholder from './placeholder';
 import './musicplayer.css';
 import './springs.css';
@@ -68,13 +70,13 @@ const TrackList: React.FC = ({ children }) => {
 };
 
 const MusicPlayer: React.FC = () => {
+  const dispatch = useDispatch();
   const [song, setSong] = useState<string>('');
   const [title, setTitle] = useState<string>('NO SONG');
   const [artist, setArtist] = useState<string>('-----');
   const [album, setAlbum] = useState<string>('----');
   const [songs, setSongs] = useState<Array<any>>([]);
   const [albumart, setAlbumart] = useState<string>(placeholder);
-  const [playlist, setPlaylist] = useState<Array<any>>([]);
 
   useEffect(() => {
     axios
@@ -88,36 +90,30 @@ const MusicPlayer: React.FC = () => {
       });
   }, []);
 
-  const getMetaData = (file: any): void => {
-    mmb.parseBlob(file).then(metadata => {
-      console.log(`Completed parsing of file:`, metadata);
-      setTitle(metadata.common.title as string);
-      setArtist(metadata.common.artist as string);
-      setAlbum(metadata.common.album as string);
-      const picture = metadata.common.picture as any;
-      const base64string = arrayBufferToBase64(picture[0].data) as string;
-      setAlbumart(`data:${picture[0].format as string};base64,${base64string}`);
-      setSong(URL.createObjectURL(file));
-    });
-  };
-
-  const onFileSelect = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const file = e.target.files![0] as any;
-    getMetaData(file);
-  };
-
   const onAudioSelect = async (item: any): Promise<void> => {
     try {
       const base64string = arrayBufferToBase64(
         item.common.picture[0].data.data,
       ) as string;
-      setTitle(item.common.title as string);
-      setArtist(item.common.artist as string);
-      setAlbum(item.common.album as string);
-      setAlbumart(
-        `data:${item.common.picture[0].data.format};base64,${base64string}`,
-      );
-      setSong(`${API_URL}/${item.url}`);
+      // setTitle(item.common.title as string);
+      // setArtist(item.common.artist as string);
+      // setAlbum(item.common.album as string);
+      // setAlbumart(
+      //   `data:${item.common.picture[0].data.format};base64,${base64string}`,
+      // );
+      // setSong(`${API_URL}/${item.url}`);
+      const parsedSong = {
+        title: item.common.title as string,
+        artist: item.common.artist as string,
+        album: item.common.album as string,
+        albumart: `data:${
+          item.common.picture[0].format as string
+        };base64,${base64string}`,
+        song: `${API_URL}/${item.url}`,
+      };
+      console.log('parse');
+      dispatch(addSong(parsedSong));
+      dispatch(play());
     } catch (err) {
       console.error(err);
     }
@@ -173,7 +169,6 @@ const MusicPlayer: React.FC = () => {
           <AudioController song={song} />
         </div>
       </div>
-      <input type="file" onChange={onFileSelect} />
       <div className="p-5">
         <div>Playlist</div>
         <TrackCard albumart={albumart} onClick={() => {}} title="test" />

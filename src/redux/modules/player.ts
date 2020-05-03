@@ -6,7 +6,7 @@
 // There are pitfalls to immer however, which you can read here https://immerjs.github.io/immer/docs/pitfalls
 
 // import axios from 'axios';
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // interface InitialStateProps {
 //   currIndex: number;
@@ -14,10 +14,19 @@ import { createSlice } from '@reduxjs/toolkit';
 //   indexes: Array<number>;
 // }
 
+interface Song {
+  title: string;
+  artist: string;
+  album: string;
+  song: string;
+  albumart: string;
+}
+
 const initialState = {
   currIndex: 0,
   isMuted: false,
-  indexes: [0],
+  list: [] as Array<Song>,
+  status: 'paused',
 };
 
 const { actions, reducer } = createSlice({
@@ -25,14 +34,37 @@ const { actions, reducer } = createSlice({
   initialState,
   reducers: {
     play: (state) => {
-      return state;
+      state.status = 'playing';
     },
-    toggleMute: (state) => {
-      state.isMuted = !state.isMuted;
+    pause: (state) => {
+      state.status = 'paused';
+    },
+    setMute: (state, action: PayloadAction<boolean>) => {
+      state.isMuted = action.payload;
+    },
+    addSong: (state, action: PayloadAction<Song>) => {
+      state.list.push(action.payload);
+    },
+    nextSong: (state) => {
+      state.currIndex = (state.currIndex + 1) % state.list.length;
+    },
+    previousSong: (state) => {
+      if (state.currIndex - 1 === -1) {
+        state.currIndex = state.list.length - 1;
+      } else {
+        state.currIndex -= 1;
+      }
     },
   },
 });
 
 export default reducer;
 
-export const { toggleMute } = actions;
+export const {
+  setMute,
+  addSong,
+  pause,
+  play,
+  nextSong,
+  previousSong,
+} = actions;

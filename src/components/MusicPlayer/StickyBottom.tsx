@@ -1,7 +1,17 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment';
+import { useTypedSelector } from 'redux/modules/reducer';
+import {
+  setMute,
+  play,
+  pause,
+  nextSong,
+  previousSong,
+} from 'redux/modules/player';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import placeholder from './placeholder';
 
 interface SpeakerIconProps {
   currentVolume: number;
@@ -37,22 +47,21 @@ const SpeakerIcon: React.FC<SpeakerIconProps> = ({
   );
 };
 
-interface AudioControllerProps {
-  song: string;
-}
+const AudioController: React.FC = () => {
+  const dispatch = useDispatch();
+  const { list, currIndex, isMuted, status } = useTypedSelector(
+    (state) => state.playerT,
+  );
 
-const AudioController: React.FC<AudioControllerProps> = ({ song }) => {
   const player = useRef<HTMLAudioElement>(new Audio());
-  const [currentTime, setCurrentTime] = useState<number>(-1);
   const slider = useRef<HTMLInputElement>(document.createElement('input'));
   const volumeSlider = useRef<HTMLInputElement>(
     document.createElement('input'),
   );
+
+  const [currentTime, setCurrentTime] = useState<number>(-1);
   const [currentVolume, setVolume] = useState<number>(0.6);
   const [duration, setDuration] = useState<number>(-1);
-  const [isMuted, setMuted] = useState<boolean>(false);
-  const [isPaused, setPaused] = useState<boolean>(true);
-  const [nowPlayingIndex, setNowPlayingIndex] = useState<number>(0);
 
   player.current.volume = currentVolume;
 
@@ -61,7 +70,7 @@ const AudioController: React.FC<AudioControllerProps> = ({ song }) => {
     setCurrentTime(audioTarget.currentTime);
     setDuration(audioTarget.duration);
     player.current.play();
-    setPaused(player.current.paused);
+    dispatch(play());
   };
 
   player.current.ontimeupdate = ({ target }: Event) => {
@@ -69,30 +78,34 @@ const AudioController: React.FC<AudioControllerProps> = ({ song }) => {
     setCurrentTime(Math.floor(audioTarget.currentTime));
   };
 
-  const onPlay = useCallback(() => {
-    if (song) {
-      player.current.play();
-      setPaused(player.current.paused);
+  useEffect(() => {
+    if (player.current.paused) {
+      dispatch(pause());
     } else {
-      alert('no song selected');
+      dispatch(play());
     }
-  }, [song]);
+  }, [dispatch]);
+
+  const onPlay = useCallback(() => {
+    player.current.play();
+    dispatch(play());
+  }, []);
 
   const onPause = (): void => {
     player.current.pause();
-    setPaused(player.current.paused);
+    dispatch(pause());
   };
 
   const onMute = (): void => {
-    setMuted(!isMuted);
+    dispatch(setMute(true));
   };
 
   const onNextSong = (): void => {
-    setNowPlayingIndex(nowPlayingIndex + 1);
+    dispatch(nextSong());
   };
 
   const onPreviousSong = (): void => {
-    setNowPlayingIndex(nowPlayingIndex + 1);
+    dispatch(previousSong());
   };
 
   const handleSlider = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -100,7 +113,7 @@ const AudioController: React.FC<AudioControllerProps> = ({ song }) => {
   };
 
   const handleVolume = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setMuted(false);
+    dispatch(setMute(false));
     setVolume(parseFloat(e.target.value));
   };
 
@@ -109,6 +122,56 @@ const AudioController: React.FC<AudioControllerProps> = ({ song }) => {
       className="player-controls d-flex flex-column w-100 navbar fixed-bottom"
       style={{ height: '80px', backgroundColor: 'white' }}
     >
+      <div className="d-flex flex-row">
+        <div
+          className="mr-3"
+          style={{ width: '60px', height: '60px', border: '1px' }}
+        >
+          <img
+            src={list[currIndex]?.albumart || placeholder}
+            alt="album cover"
+            className="w-100"
+            style={{ borderRadius: '3px' }}
+          />
+        </div>
+        <div className="d-flex flex-column">
+          <div style={{ fontSize: '18px' }}>
+            {list[currIndex]?.title || '-----'}
+          </div>
+          <div style={{ fontSize: '12px' }}>
+            {list[currIndex]?.artist || '----'}
+          </div>
+        </div>
+      </div>
+      <div className="d-flex flex-row align-items-center justify-content-center">
+        <FontAwesomeIcon
+          icon="fast-backward"
+          className="player-button"
+          size="1x"
+          onClick={onPreviousSong}
+        />
+        {status === 'paused' ? (
+          <FontAwesomeIcon
+            icon="play"
+            onClick={onPlay}
+            className="player-button mx-2"
+            size="1x"
+          />
+        ) : (
+          <FontAwesomeIcon
+            icon="pause"
+            onClick={onPause}
+            className="player-button mx-2"
+            size="1x"
+          />
+        )}
+        <FontAwesomeIcon
+          icon="fast-forward"
+          className="player-button"
+          size="1x"
+          onClick={onNextSong}
+        />
+      </div>
       <div className="d-flex flex-row justify-content-between w-50 align-items-center">
         <div style={{ minWidth: '30px' }}>
           {currentTime >= 0
@@ -129,33 +192,6 @@ const AudioController: React.FC<AudioControllerProps> = ({ song }) => {
         <div style={{ minWidth: '30px' }}>
           {duration >= 0 ? moment(duration * 1000).format('mm:ss') : '--:--'}
         </div>
-      </div>
-      <div className="d-flex flex-row align-items-center justify-content-center">
-        <FontAwesomeIcon
-          icon="fast-backward"
-          className="player-button"
-          size="1x"
-        />
-        {isPaused ? (
-          <FontAwesomeIcon
-            icon="play"
-            onClick={onPlay}
-            className="player-button mx-2"
-            size="1x"
-          />
-        ) : (
-          <FontAwesomeIcon
-            icon="pause"
-            onClick={onPause}
-            className="player-button mx-2"
-            size="1x"
-          />
-        )}
-        <FontAwesomeIcon
-          icon="fast-forward"
-          className="player-button"
-          size="1x"
-        />
       </div>
       <div className="d-flex flex-row align-items-center">
         <SpeakerIcon
@@ -181,7 +217,7 @@ const AudioController: React.FC<AudioControllerProps> = ({ song }) => {
       </div>
       <audio
         ref={player}
-        src={song}
+        src={list[currIndex]?.song}
         id="music-player"
         muted={isMuted}
         preload="auto"

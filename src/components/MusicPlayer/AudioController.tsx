@@ -105,7 +105,6 @@ const AudioController: React.FC<AudioControllerProps> = ({ song }) => {
   };
 
   const handleVolume = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setMuted(false);
     setVolume(parseFloat(e.target.value));
   };
 
